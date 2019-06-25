@@ -1,0 +1,163 @@
+class name=riimii
+ taulukoi
+  pre
+    xse:gawk in=vtest.gen env="LC_ALL=fi_FI.ISO-8859-1" BEGIN="FS='\t'": '''
+      NF==0 { i=i+1; next}
+       {  c=index($1m," ");s=substr($1,1,c);m=substr($1,c);print i,j,s, "//",m , "  //" $2;if (prev!=s) j=j+1; else j=j;prev=s   }
+    '''  
+ fixnoms
+   pre
+     xse:gawk in=nomkaavat.lst env="LC_ALL=fi_FI.ISO-8859-1" BEGIN="FS=',';OFS=','": '''
+       /^027/  { $2="";$4="";print} 
+       /^028/  { $2="";$4="";print}  ##jälsi väärin
+       /^029/  { $2="";$4="";$6=substr($6,2);print} #lapsi
+       /^030/  { $2="";$4="";$6=substr($6,2);print}  #peitsi
+       /^034/  { $2=substr($2,2);print}  #hapan
+       /^035/  { $2=substr($2,2);print}  #lämmin
+       /^036/  { $2=substr($2,2);print}  #alin
+       /^037/  { $2=substr($2,2);print}  #vasen
+       /^038/  { if ($4=="n") { $2="";$4="";print}}  #muutama väärin
+       $1>38 && $1<44 {  $2=substr($2,2);print}  #vasen
+       { print >"uuskaava.nom"}
+    ''' 
+   xse:shellexec: cat uuskaava.nom verkaavat.lst | sed  's/,/A/g' | sort  -d|sed  's/A/,/g'  > "kaavas.lst"
+   #cat kaavas.lst | sed  's/,/A/g' | sort  -d|sed  's/A/,/g' | grep 48,ei -a -B5 -A5 |
+
+ test
+   xse:shellexec: ./riimaa test
+ nomlemmas
+   pre
+     xse:gawk in=nomsall.csv env="LC_ALL=fi_FI.ISO-8859-1" : '''
+      END { print ":::::::::::::::::::::" lops "//" >"turha.txt"}
+      BEGIN { print "XXX" ;FS=" "; while (getline<"nmids.csv") lis[ "0" substr($1,1,2)]=substr($3,2)
+       FS=","; for (li in lis) print li "/" lis[li] "/"
+       }
+       { 
+         lops=lops "."  $6cat
+         print $1 lis[$1] "." $2 $3 $6 $7 >"noms.tmp"
+       }
+         
+     
+     '''
+     # xse:shellexec: export LC_ALL=fi_FI.ISO-8859-1; rev noms.tmp | > noms.tmp2
+     
+ ss    
+     xse:shellexec: export LC_ALL=fi_FI.ISO-8859-1; gawk ' BEGIN { FS=","}{ print $2 $4 $6 $7;   } ' nomsall.csv|rev  > noms.tmp
+}
+     
+     ": '''
+     xse:shellexec: gawk  'BEGIN { FS=","} { nomsall.csv}": '''
+     $1!=prev {  print prev;prev=$1}
+            }
+     '''
+
+ tmp 
+   pre
+     #xse:gawk env=LC_ALL=fi_FI.ISO-8859-1 in="koko.ko" BEGIN="FS=' '": '''
+     xse:gawk env=LC_ALL=fi_FI.ISO-8859-1 in="samamuodot.N2" BEGIN="FS=' '": '''
+      { if (prev>$1) print NR  $0,"//",prev;prev=$1;if (NR>99999) exit}
+     '''
+ nounadj  # koko.kosta kaikki rivit joissa sekä N_ että ADJ_ .. järjestys?
+   xmp   
+    xse:gawk env=LC_ALL=fi_FI.ISO-8859-1 in="koko.ko" BEGIN="FS=' '": '''
+     /\sN_.*\sA_/{  print $2, (match($2,/^N_/));if (NR>10000) exit}
+     '''
+  calcs
+        xse:gawk env="LC_ALL=fi_FI.ISO-8859-1" in="nomadj.pairs": '''
+          { if ($1!=prev) { print prev,p6 >"verb.n"
+           co[$3]=co[$3]+$5
+           prev=$1; p6=$6 
+          }
+          END { print prev,p6 >"verb.n";for (i in co) print i,co[i] > "adv.tmp" } 
+        '''       
+       xse:shellexec: LC_ALL=C; sort adv.tmp >adv.n  
+  
+ nomadjs    
+  pre
+    xse:gawk env=LC_ALL=fi_FI.ISO-8859-1 in="koko.ko" BEGIN="FS=' '": '''
+        /^\-/ { next}
+        /\sN_.*\sA_/{
+            npos=match($2, /^N_/)
+            if (npos==0) { next} 
+            if (length($1)>15) { next} 
+            if (length($3)>15) { next} 
+            nform=substr($2,npos+2)
+            print $4,"//" nform,"//",index($4,nform),index($4," A_")
+            if (index($4,nform)>0 && index($4,"A_")==1 )  {
+               print $1,$3,$5> "samamuodot.N2"
+               ns[$1]=ns[$1]+$5;as[$3]=as[$3]+$5
+            }  
+        }
+        /\sA_.*\sN_/ {       
+            if (length($1)>15) { next} 
+            if (length($3)>15) { next} 
+         npos=match($4, /^N_/)
+         if (npos==0) { next} 
+         nform=substr($4,npos+2)
+         #print $2 "//" nform "//" index($2,nform), $0
+         
+         if (index($2,nform)>0)  {
+            #print $0,"!", index($9,"A_"), $9
+            print  $3,$1,$5  > "samamuodot.N2"
+            as[$1]=as[$1]+$5;ns[$3]=ns[$3]+$5
+          }  
+        } 
+      END {
+      for (n in ns) print n,ns[n]>"nacount.n"
+      for (a in as) print a,as[a]>"nacount.a"
+      
+      }  
+      # { if (NR>10000) exit}
+    '''   
+    xse:shellexec: LC_ALL=fi_FI.ISO-8859-1; sort samamuodot.N2 |grep -a -v "-" > nomadj.pairs  
+ isn  
+    xse:gawk env=LC_ALL=fi_FI.ISO-8859-1 in="samamuodot.N": '''
+     BEGIN { FS=" ";while (getline<"nacount.a") an[$1]=$2;while (getline<"nacount.n") nn[$1]=$2 }
+     { $1!=prev} { exit}
+     END { for (w in an) print "(" w" :"an[w],") " }
+     
+    '''
+
+    xse:shellexec: LC_ALL=fi_FI.ISO-8859-1; sort samamuodot.N2 |grep -a -v "-" > nomadj.pairs  
+ nounadjold  
+   xmp   
+    xse:gawk env=LC_ALL=fi_FI.ISO-8859-1 in="koko.ko" BEGIN="FS=' '": '''
+        #END { print "GOTALL";for (i in advs) print i,advs[i]>"freqs.n_a";exit}
+        /N_/{     
+         npos=match($3, /N_/)
+         if (npos==0) { next} 
+         nform=substr($3,npos+2)
+         #print nform,$9, index($9,nform), "   "  $0
+         if (index($9,nform)>0 && index($9,"A_")>0 )  {
+           #print $0,"!", index($9,"A_"), $9
+            print > "samamuodot.N"
+            print $2,$8,$6> "samamuodot.N2"
+          }  
+        } 
+      #{ if (NR>10000) exit}
+    '''   
+    xse:shellexec: LC_ALL=fi_FI.ISO-8859-1; sort samamuodot.N2 > nomadj.pairs  
+ nnn
+      { if (NR>10000) exit}
+         #N_Par_Sg   +  A_Pos_Par_Sg
+          #print nform,$3,$9
+          #got="";
+          #delete(gots)
+          #if (index($3,"Adv")<1)  { getting=""} else { getting=$1;    prev=$2    }
+
+
+               (prev!=$2)   { 
+      (getting==$2) { if  ( index($9,nform)>0)) gots[$8]=gots[$8]+$6;advs[$2]=advs[$2]+$6 }
+         if (getting!="") {
+             ss=""
+             #n=asort(gots,sgots)
+             for (s in gots) ss=ss s "." gots[s] " " #gots[sgots[s]] ". "
+             print "\n" getting,"     ",gots[1]  ss #>"advv.lst";
+          }
+
+
+jos eka sana N_  aseta nform=sanan muoto ja  getting=perusmuoto
+sitten jatketaan kunnes sana (taivutettu) on eri
+otetaan kaikki sanat joiden 
+
+jos 

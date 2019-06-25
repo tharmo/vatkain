@@ -1,0 +1,24 @@
+unit v_taivu;
+{
+siivottu versio riimiuus.pas
+Lähtökohtana vanhassa oli sanatuus.csv jossa käänteinen taivutuskaavio 27550 sanasta
+      Nyt haluaisin enemmän sanoja.
+    27816 nominia in noms3.csv, 27815 in noms4.csv 27808 in nomsall.csv (mikä ero? rormaatissas pientä)
+Nyt lähtö: nomstosort.csv 27808 sortattu luokan mukaan ja  verbstosort.csv  9369
+  sen tuottamiseksi on vaivattu taivutuskaavioita nmids...
+  sinne asti ei palata, mutta luontiscriptit ja ohjelmat pitää säästää jossain
+
+Otetaan nominit.pas ja verbikama.pas sellaisenaan)
+
+}
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils;
+
+implementation
+
+end.
+
