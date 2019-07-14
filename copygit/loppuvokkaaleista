@@ -1,0 +1,63 @@
+
+    0: /
+   * 1ukko: o/ ou/ u/
+   * 2hiomo: o/ u/
+    e 3avio: e/ ei/ o/ oe/ ou/
+    o 4elikko: o/
+ i    5häkki: i/ ta/ t/ tuo/
+ i   6seteli: i/
+ i   7kaikki: i/
+ e   8nukke: e/ ei/
+ a   9ankka: a/
+ a   10fokka: a/
+ a   11itara: a/
+ a   12urea: a/
+ a   13aluna: a/
+ a   14ulappa: a/
+ a   15upea: a/
+ i   16kumpi: i/ ta/  ** molemmat monikko
+ *   17keruu: aa/ oo/  uu/ .. too/ monikko talkoot
+ *   18jää: aa/ ee/ ia/ ie/ ii/ io/ iu/ oo/ ua/ ui/ uu/
+ *   19suo: ei/ ou/
+ *   20bukee: aa/ ee/ oo/ uu/  melk suomea
+ ?   21gay: e/ ei/ ua/ u/ ue/ uo/
+??    22buffet: ta/ t/ te/ tia/ tuo/
+ i   23lohi: i/
+ i   24uni: i/
+    25liemi: /  voi kaavoittaa muutenkin
+ i   26veri: i/  
+    27mesi: / voi kaavoittaa muutenkin
+    28jälsi: / vitun jälsi
+    29lapsi: / ainoa
+    30peitsi: /  voimuu
+    31yksi: i/
+  *  32tytär: le/ ne/ ra/  ainoa jossa tarvitaan konsonantti
+  *  33asetin: a/ / ia/ i/ io/ iu/ u/  useita vakiotyyppejä .. jaa?
+    34hapan: a/ o/  .. hapan + ton-päätteisiä
+    35lämmin: i/  vain lämmin
+    36alin: i/ ia/ i/ io/  sorttaus pielessä !
+    37vasen: e/  ainoa sana
+*    38öinen: / a/ e/ i/ ia/ ie/ ii/ io/ iu/ o/ u/  nen-päätteiset, ehka a,e,i.. toinen vok sanaan? tavujen laskeminen? 
+    39ajos: a/ e/ ei/ i/ o/ ua/ u/ ue/ ui/ uo/ uu/  tuplat sanaan?
+*    40etuus: ua/ ue/ ui/ uo/ uu/  
+*    41rakas: a/ e/ i/ u/
+    42mies: ei/  ainoa
+u    43immyt: u/
+    44kevät: ta/  kevät venät T taivutukseen
+    45sadas: sa/ se/  S taivutukseen
+    46tuhat: ta/ AINUT
+    47mennyt: tee/ tu/  TEE turha monikko
+*    48hake: e/ i/ u/  ... ei/ hie jaa toisin 
+    xxxxstartstop
+    
+Loppuvokaaleissa ei koskaan diftongia   (jos niitä on sanan lopussa, eka siirretty itse sanaan).
+heikoissa sekä 1- että 2kirjaimisia.
+vahvoissa vokaalin vaihtelu vain 47,48. 47 aina loppuu uuhun, se voitais kirjoittaa kaavoihin. 48 pari poikkeusta (ori, kiiru - hyvn epäsäännöllisiä)
+
+Testaa vokvaihtelun vaikutus tavutukseen - voiko uusi vokaali tuottaa tavurajan
+  raja vois syntyä joko uuden ja sanan vikan kirj välille (jos astevaihtelukons="" - k-, --) tai uuden ja sijamuodon ekan välille
+  
+  
+AV :  kk toinen k poistuu, ukko ukon xk: k poistuu halko, halon .. eroa vain jos x olikin vokaali 
+  
+ 

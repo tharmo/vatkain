@@ -1,0 +1,140 @@
+1 0 hilut,t
+1 0 bailut,t
+1 0 housut,t
+1 0 mensut,t
+1 0 vällyt,t
+1 0 kimpsut,t
+1 0 aivot,t
+1 0 fudut,t
+1 0 kemut,t
+1 0 torut,t
+1 0 kasvot,t
+1 0 pöksyt,t
+1 0 jortsut,t
+1 0 kampsut,t
+1 A menkut,t
+1 A terkut,t
+1 A farkut,t
+1 B lemput,t
+1 D urut,t
+1 F pidot,t
+1 F käädyt,t
+1 J opinnot,t
+2 0 illatsut,t
+2 0 pippalot,t
+3 0 kapiot,t
+7 0 sakset,t
+7 0 päitset,t
+7 0 suitset,t
+7 G länget,t
+8 0 bänet,t
+8 0 ravet,t
+9 0 silat,t
+9 0 hatkat,t
+9 0 kihlat,t
+9 0 tangat,t
+9 0 tirsat,t
+9 0 perskat,t
+9 0 bermudat,t
+9 A menkat,t
+9 B hipat,t
+10 0 yhdeksän,n
+10 0 kahdeksan,n
+10 0 seitsemän,n
+10 0 pässinpökkimät,t
+10 0 pökät,t
+10 0 käräjät,t
+10 0 oltavat,t
+12 0 atulat,t
+12 0 kakkulat,t
+12 0 orgiat,t
+12 0 hippulat,t
+12 0 markkinat,t
+12 0 passiivat,t
+13 0 aktiivat,t
+14 A rintsikat,t
+16 H molemmat,t
+17 0 talkoot,t
+17 0 hynttyyt,t
+18 0 kireäilmeinen,n
+18 0 rikasilmeinen,n
+18 0 herkkäilmeinen,n
+18 0 häät,t
+18 0 omailmeinen,n
+18 0 vähäilmeinen,n
+18 0 tiukkailmeinen,n
+18 0 vakavailmeinen,n
+20 0 bileet,t
+21 0 bébé,é
+21 0 moiré,é
+21 0 rosé,é
+21 0 coupé,é
+22 0 buffet,t
+22 0 ragoût,t
+22 0 beignet,t
+22 0 gourmet,t
+22 0 parfait,t
+22 0 tournedos,s
+22 0 nougat,t
+22 0 bouquet,t
+22 0 bordeaux,x
+22 0 passepartout,t
+33 0 kuolaimet /t9 1n/
+33 0 keritsimet /t10 1n/
+33 0 näkimet /t7 1n/
+33 0 aterimet /t8 1n/
+33 C kiittimet /t9 1n/
+33 C hoksottimet /t11 1n/
+33 C synnyttimet /t11 1n/
+33 F hohtimet /t8 1n/
+33 J antimet /t7 1n/
+38 0 joltinenkin /kin11 1nen/
+38 0 kulloinenkin /kin12 1nen/
+38 0 minunlaiseni /eni12 1nen/
+38 0 hänenlaisensa /nsa13 1nen/
+38 0 kumpainenkaan /aan13 1nen/
+38 0 jommoinenkin /kin12 1nen/
+38 0 kumpainenkin /kin12 1nen/
+38 0 sinunlaisesi /esi12 1nen/
+39 0 irvistys:suhauksella /a20 1s/
+39 0 kidukset /t8 1s/
+39 0 anopikset /t9 1s/
+39 0 lehdekset /t9 1s/
+39 0 persukset /t9 1s/
+39 0 sukkikset /t9 1s/
+39 0 viinakset /t9 1s/
+39 0 kaverukset /t10 1s/
+39 0 kehruukset /t10 1s/
+39 0 persaukset /t10 1s/
+39 0 sisälmykset /t11 1s/
+39 0 kumppanukset /t12 1s/
+39 0 kälykset /t8 1s/
+39 0 tulukset /t8 1s/
+39 0 kaimakset /t9 1s/
+39 0 langokset /t9 1s/
+39 0 mensikset /t9 1s/
+39 0 pitkikset /t9 1s/
+39 0 siskokset /t9 1s/
+39 0 persuukset /t10 1s/
+39 0 sisarekset /t10 1s/
+39 0 toverukset /t10 1s/
+39 0 ystävykset /t10 1s/
+39 0 naapurukset /t11 1s/
+39 0 tuttavukset /t11 1s/
+41 0 lunnaat /t7 1s/
+41 0 valjaat /t7 1s/
+41 0 rynttyyt /t8 1s/
+41 A tikkaat /t7 1s/
+41 C rattaat /t7 1s/
+41 I maltaat /t7 1s/
+48 0 alkeet,t
+48 0 harteet,t
+48 0 hyntteet,t
+48 0 ryntteet,t
+48 0 pukeet,t
+48 0 perkeet,t
+48 0 rääppeet,t
+48 0 tamineet,t
+48 B kamppeet,t
+48 F lauteet,t
+48 L rahkeet,t

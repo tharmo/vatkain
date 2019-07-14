@@ -1,0 +1,1 @@
+hfst-proc -a -v  -p /usr/local/share/hfst/fi/fi-analysis.hfst.ol ;

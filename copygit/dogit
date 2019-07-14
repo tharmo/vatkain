@@ -1,0 +1,5 @@
+find . -size +2M | cat >> .gitignore
+find .  -maxdepth 1 -size -2M -exec cp  {} copygit/ \;
+git add copygit/*
+git commit -m $1
+git push
