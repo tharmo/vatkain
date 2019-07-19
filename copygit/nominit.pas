@@ -51,20 +51,27 @@ end;
 
 const nbaseendings:array[0..11] of ansistring =('a','a', 'n', '', 'a', 'ut', 'i', 'tu', 'en', 'isi', 'kaa', 'emme');
 scount=33;
-const nendings:array[0..33] of ansistring=('','n','a','ssa','sta','n','lla','lta','lle','na','ksi','tta','t','en','a','issa','ista','in','illa','ilta','ille','ina','iksi','itta','in','en','iden','itten','in','ten','in','ihin','a','ita');
+
+//const nendings:array[0..33] of ansistring=('','n','a','ssa','sta','n','lla','lta','lle','na','ksi','tta','t','en','a','issa','ista','in','illa','ilta','ille','ina','iksi','itta','in','en','iden','itten','in','ten','in','ihin','a','ita');
 //const navexamples:array[1..49] of ansistring=('abo','hiomo','avio','elikko','cup','agar','ovi','byte','eka','boa','itara','urea','aluna','urakka','upea','kumpi','keruu','jää','suo','bukee','gay','buffet','lohi','uni','liemi','veri','mesi','kansi','lapsi','peitsi','yksi','aamen','astin','alaston','lämmin','alin','vasen','öinen','ajos','etuus','oras','mies','ohut','kevät','sadas','tuhat','mennyt','ane','huhmar');
 //const navexamples:array[1..49] of ansistring=('ukko','hiomo','avio','elikko','cup','agar','kaikki','byte','eka','boa','itara','urea','aluna','urakka','upea','kumpi','keruu','jää','suo','bukee','gay','buffet','lohi','uni','liemi','veri','mesi','jälsi','lapsi','peitsi','yksi','tytär','astin','alaston','lämmin','alin','vasen','öinen','ajos','etuus','rakas','mies','immyt','kevät','sadas','tuhat','mennyt','hake','kinner');
 
 const nexamples:array[1..49] of ansistring=('ukko','hiomo','avio','elikko','häkki','seteli','kaikki','nukke','ankka','fokka','itara','urea','aluna','ulappa','upea','kumpi','keruu','jää','suo','bukee','gay','buffet','lohi','uni','liemi','veri','mesi','jälsi','lapsi','peitsi','yksi','tytär','asetin','hapan','lämmin','alin','vasen','öinen','ajos','etuus','rakas','mies','immyt','kevät','sadas','tuhat','mennyt','hake','kinner');
-const nsijnams:array[0..34]of ansistring =('N Nom Sg','N Gen Sg','N Par Sg','N Ine Sg','N Ela Sg','N Ill Sg','N Ade Sg','N Abl Sg','N All Sg','N Ess Sg','N Tra Sg','N Abe Sg','N Nom Pl','N Gen Pl','N Par Pl','N Ine Pl','N Ela Pl','N Ill Pl','N Ade Pl','N Abl Pl','N All Pl','N Ess Pl','N Tra Pl','N Abe Pl','N Ins Pl','N Gen Pl','N Gen Pl','N Gen Pl','N Gen Pl','N Gen Pl','N Ill Pl','N Ill Pl','N Par Pl','N Par Pl','xx');
+//const nsijnams:array[0..34]of ansistring =('N Nom Sg','N Gen Sg','N Par Sg','N Ine Sg','N Ela Sg','N Ill Sg','N Ade Sg','N Abl Sg','N All Sg','N Ess Sg','N Tra Sg','N Abe Sg','N Nom Pl','N Gen Pl','N Par Pl','N Ine Pl','N Ela Pl','N Ill Pl','N Ade Pl','N Abl Pl','N All Pl','N Ess Pl','N Tra Pl','N Abe Pl','N Ins Pl','N Gen Pl','N Gen Pl','N Gen Pl','N Gen Pl','N Gen Pl','N Ill Pl','N Ill Pl','N Par Pl','N Par Pl','xx');
 
-const nsijesims:array[0..34]of ansistring =('ilo','ilon','iloa','ilossa','ilosta','iloon','ilolla','ilolta','ilolle','ilona','iloksi','ilotta','ilot','ilojen','iloja','iloissa','iloista','omeniin','iloilla','iloilta','iloille','iloina','iloiksi','iloitta','iloin','ilojen','omenoiden','omenoitten','ulappain','unten','uniin','iloihin','iloja','omenoita','xx');
+//const nsijesims:array[0..34]of ansistring =('ilo','ilon','iloa','ilossa','ilosta','iloon','ilolla','ilolta','ilolle','ilona','iloksi','ilotta','ilot','ilojen','iloja','iloissa','iloista','omeniin','iloilla','iloilta','iloille','iloina','iloiksi','iloitta','iloin','ilojen','omenoiden','omenoitten','ulappain','unten','uniin','iloihin','iloja','omenoita','xx');
+
+const nendings:array[0..33] of ansistring =('','a','n','ssa','sta','lla','lta','lle','ksi','tta','na','n','t','issa','ista','illa','ilta','ille','iksi','itta','in','ina','a','a','ita','in','in','ihin','en','en','iden','itten','in','ten');
+const nsijesims:array[0..33]of ansistring =('ilo','iloa','ilon','ilossa','ilosta','ilolla','ilolta','ilolle','iloksi','ilotta','ilona','iloon','ilot','iloissa','iloista','iloilla','iloilta','iloille','iloiksi','iloitta','iloin','iloina','iloja','iloja','omenoita','omeniin','uniin','iloihin','ilojen','ilojen','omenoiden','omenoitten','ulappain','unten');
+const nsijnams:array[0..33]of ansistring =('NNomSg','NParSg','NGenSg','NIneSg','NElaSg','NAdeSg','NAblSg','NAllSg','NTraSg','NAbeSg','NEssSg','NIllSg','NNomPl','NInePl','NElaPl','NAdePl','NAblPl','NAllPl','NTraPl','NAbePl','NInsPl','NEssPl','NParPl','NParPl','NParPl','NIllPl','NIllPl','NIllPl','NGenPl','NGenPl','NGenPl','NGenPl','NGenPl','NGenPl');
+nvahvanvahvat =[0,1,10,11,21,22,25,27,28,32];
+//nvahvanvahvat =[0,1,6,11,15,16,20,21,17,13,27,28];
+const nheikonheikot=[0,1,33];
 
 
+//0(0),       2(1),       1(2),       3(3),       4(4),       6(5),       7(6),       8(7),      10(8),      11(9),      9(10),      5(11),     12(12),     15(13),     16(14),     18(15),     19(16),     20(17),     22(18),     23(19),     24(20),     21(21),     14(22),     32(23),     33(24),     17(25),     30(26),     31(27),     13(28),     25(29),     26(30),     27(31),     28(32),     29(33),
 
-const
-nvahvanvahvat =[0,2,5,9,13,14,17,21,25,28,31,32];
-nheikonheikot= [0,2,29];
+//const nvahvanvahvat =[0,2,5,9,13,14,17,21,25,28,31,32]; nheikonheikot= [0,2,29];
 //if (lka<32) then if j in [0,2,5,9,13,14,17,21] then thisvahva:=true else thisvahva:=false;
 
 {$mode objfpc}{$H+}
@@ -248,13 +255,12 @@ end;
 
 constructor tnominit.create(kAAVAFILE,midfile:string);
 begin
-//writeln(' ');
-luemids('nmids.csv');
+luemids(midfile);
 //luesanat('nomsall.csv');
 //???luesanat(wfile);
 //writeln('luettu,luesanat');
 nhitlist:=tlist.create;
-//writeln('<li>nominit luettu:',midfile,' ',wfile);
+writeln('<li>nominit luettu:',midfile,' ',midfile);
 //listaa;
 exit;
 writeln('<hr>etsi<hr>');
@@ -269,21 +275,24 @@ procedure tnominit.luemids(fn:string);  //hanskaa samalla sijojen luonti luettav
 var i,j:integer;
  slist,mlist:tstringlist;d:boolean;
 begin
+  writeln('<h2>xxxxxxxxxccccccccc</h2> ',fn);
 d:=true;
 slist:=tstringlist.create;
 mlist:=tstringlist.create;
+//mlist.delimiter:=' ';
   slist.loadfromfile(fn);//'nmids.csv');
-  //writeln('<pre>luettu ',fn,'=',^m,slist.text,'</pre>');
   slist.delete(0); slist.delete(0);
   slist.delete(0); slist.delete(0);
   //write('<hr>',i,':',slist.commatext,'<hr><pre>');
+  writeln('<pre>luettu ',fn,'=',^m,slist.text,'</pre>');
   //if d then  writeln(slist.commatext);
   for i:=0 to slist.count-1 do
   begin
     //if i=27 then writeln('2222222222222228888888:',slist[i]);
     // if i=27 then slist[i]:='28,     ,*e  ,--tt  ,*e  ,*e  ,*-te  ,*e  ,*e  ,*e  ,*-te  ,*e  ,*e  ,*e  ,      ,      ,-     ,-     ,      ,-     ,-     ,-     ,-     ,-     ,-     ,-';
 
-     mlist.commatext:=slist[i];
+     mlist.delimitedtext:=slist[i];
+     writeln('<li>',mlist.count,'::',mlist.commatext,'!!</li>');
      mlist.delete(0);
      mlist.delete(0);
      for j:=0 to scount do

@@ -62,7 +62,7 @@
 33 0 keritsin
 33 0 aterin
 33 C hoksotin
-33 F hohtimet
+33 F hohdin
 38 0 minunlainen
 38 0 sinunlainen
 41 0 lunnas
@@ -87,7 +87,7 @@
 5 0 luxi
 5 0 pari
 5 0 pubi
-5 b rappi
+5 B rappi
 5 0 tagi
 5 A wokki
 5 0 zeni
@@ -164,8 +164,8 @@
 5 0 maratoni
 5 0 natriumi
 5 0 niobiumi
-5 g pettinKi
-5 0 playooffi
+5 G pettinki
+5 0 playohvi
 5 0 protiumi
 5 0 ramadani
 5 0 rekviemi
@@ -380,8 +380,8 @@
 6 0 nyloni
 6 0 pytoni
 6 0 tutori
-6 C tuuttori47 
-0 liittoutunut
+6 C tuuttori 
+6 0 liittoutunut
 6 0 weberi
 6 0 bitteri
 6 0 blazeri
@@ -421,4 +421,3 @@
 6 0 appenzelleri
 6 0 besserwisseri
 6 0 liirumlaarumi
-

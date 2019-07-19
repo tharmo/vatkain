@@ -53,8 +53,10 @@ function tavusrev(st:ansistring):word;
 procedure savebin(rows,cols,usiz:integer;arr:array of word;fn:string) ;
 procedure readbin(rows,cols,usiz:integer;var arr:array of word;fn:string) ;
 function tavuluku(st:string;var olivok:char):word;
+function takax(st:string;var x:word):string;
 
 implementation
+
  function tavuluku(st:string;var olivok:char):word;
 var i:word;tulos:string;raja:boolean;
 begin
@@ -450,19 +452,19 @@ function isdifto(c1,c2:ansichar):boolean;
   end;
  // if not result then write('*');
  end;
-function isvokraja(c1,c2:ansichar):boolean;
- begin
-  result:=true;
-  if pos(c2,konsonantit)>0 then result:=false else
-  if pos(c1,konsonantit)>0 then result:=false else
-  if c1=c2 then result:=false else                       //arv  i o i da                ae ao ea eo ia io oa oe ua ue
-  case c1 of
-   'a': if pos(c2,'iu')>0 then begin result:=false;;end;
-   'e','i': if pos(c2,'ieuy')>0 then result:=false;
-   'o','u': if pos(c2,'iuo')>0 then result:=false;
-   'y','ö': if pos(c2,'iyö')>0 then result:=false;
-   'ä': if pos(c2,'iy')<1 then result:=false;
-  end;
+  function isvokraja(c1,c2:ansichar):boolean;
+   begin
+    result:=true;
+    if pos(c2,konsonantit)>0 then result:=false else
+    if pos(c1,konsonantit)>0 then result:=false else
+    if c1=c2 then result:=false else                       //arv  i o i da                ae ao ea eo ia io oa oe ua ue
+    case c1 of
+     'a': if pos(c2,'iu')>0 then begin result:=false;;end;
+     'e','i': if pos(c2,'ieuy')>0 then result:=false;
+     'o','u': if pos(c2,'iuo')>0 then result:=false;
+     'y','ö': if pos(c2,'iyö')>0 then result:=false;
+     'ä': if pos(c2,'iy')>0 then result:=false;
+    end;
  // if not result then;
  end;
 function matchtavut(s1,s2:tstringlist):boolean;
@@ -524,6 +526,22 @@ begin
  if st[i]='u' then st[i]:='y';// else st[i]:=st[i];
  result:=st;
 end;
+function takax(st:string;var x:word):string;
+ var i:byte;st2:ansistring;
+ function c(s:ansichar):ansichar;
+ begin
+
+     if pos(s,'aou')>0 then begin result:=s;x:=0;end else
+     if s='ä' then  result:='a' else
+     if s='ö' then result:='o' else
+     if s='y' then result:='u'  else result:=s;
+  end;
+ begin
+  x:=1;
+  result:='';
+  for i:=1 to length(st) do st[i]:=c(st[i]);
+  result:=st;
+ end;
 
 function taka(st:ansistring):ansistring;
 var i:byte;st2:ansistring;
