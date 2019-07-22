@@ -25,11 +25,12 @@ type tav=record ekasana,takia,vikasana,sis:word;h,v,av:string[1];end;  //lisää v
 
 type tluokkasija=class(tobject)
    luokka:tlka;sija:tsija;
+   lnum,snum:word;
    lisuke:string[8];
    vahva:boolean;
-   eatvok,tuplakon,tuplavok:boolean;
+   eatvok,eat2vok,tuplakon,tuplavok,copyvok,nogo:boolean;
    procedure match(alku:string);
-   constructor create(tpl:string);
+   constructor create(lka:tlka;sij:tsija;tpl:string);
 end;
 type tsanasto=class(tobject)
  vcount,ncount:integer;
@@ -38,6 +39,7 @@ type tsanasto=class(tobject)
  avs:array[0..2047] of tav;
  sans:array[0..65535] of tsan;
  sanataulu:array[0..65535] of string[20];
+ nomluokkasijat: array[0..48] of array[0..33] of tluokkasija;
  verbit:tverbit;
  nominit:tnominit;
  eitaivu:tstaulu;
@@ -89,44 +91,62 @@ procedure tluokkasija.match(alku:string);
 begin
 
 end;
-constructor tluokkasija.create(tpl:string);
+procedure muototest;  //turhaksi osoittautunut testaus tiedostojen versiosta. xversio oli väärä. Mutta ihan hyvä runko myyöhemmille jutuille
+var ms1,ms2,r1,r2:tstringlist;
+   i,j:word;
 begin
-     if pos('-',tpl)=1 then begin lisuke:=copy(tpl,2);EATVOK:=true;  END;//delete(mymid,1,1);delete(mysis,1,1); end;
-     // verbeissä vain saada sai
+    ms1:=tstringlist.create;
+    r1:=tstringlist.create;
+    ms2:=tstringlist.create;
+    r2:=tstringlist.create;
+    ms1.loadfromfile('nommuodot.csv');
+    ms2.loadfromfile('nommuodotx.csv');
+    writeln('<table border="1">');
+    for i:=0 to ms1.count-1 do
+    begin
+      r1.commatext:=ms1[i];
+      r2.commatext:=ms2[i];
+      if i<4 then begin r1.insert(0,'');r2.insert(0,'');r1.insert(0,'');r2.insert(0,'');end;
+      writeln('<tr>');
+      for j:=0 to r1.Count-1 do
+      begin
+        writeln('<td>',r1[j]);
+        if r1[j]<>r2[j] then writeln('/',r2[j]);
+        writeln('</td>');
+      end;
+      writeln('<tr>');
 
-     if pos('_',tpl)=1 then begin lisuke:=copy(tpl,2);tuplaVOK:=true;  END;// begin delete(mymid,1,1);mymid:=mymid+mysis; end;
-       //tuyplavok illatiivi usein: ukkoon nukkeen ... muissa muoiss lk 41,48 myös rakas rakkaan hake hakkeessa . verbeissä vain lka 1 jossa paria loppuvok sanoO kehuU
-
-     if pos('*',tpl)=1 then begin lisuke:=copy(tpl,2);tuplaKon:=true;  END;//if pos('*',mymid)=1 then begin delete(mymid,1,1);mymid:=mymid+san.san[1]; end;
-     //vokaaleissa - tuplaa konsonantin kansi kannen lka 28;
-     //verbeissä yleensä syö konsonantin, useis s tilalla taitaa taisi musertaa musersi
-     // mutta 67 piruilla ..LLA  tuplaa loppukonsonantin
-     //tarvitaan eri merkki tuplakon tai eatkon  .. vai riittääkä että syö jotain..
-     if pos('#',tpl)=1 then begin lisuke:=copy(tpl,2);tuplaKon:=true;  END;//if pos('*',mymid)=1 then begin delete(mymid,1,1);mymid:=mymid+san.san[1]; end;
-            // viedä / vei  .. tie teitä ,  syö tokavikan vokaalin
-
-            //uudet merkit
-            //-  EATVOK  syö RIMESTÄ VIKAN, verb vain saada sai, oikein merkattu
-
-            //--   syö tokavikan rimestä (vanha #)
-
-            //_  EATKON syö AV-konsonantin nom ei esiinny,   verb usein soutaa -t+s sousi, väärin merkattuina asteriksilla
-
-            //*   TUPLAVOK  nom usein:ukko ukkoon rakas rakkaan  (verb vain sanoO kehuU) verb väärät  s* -> s_
-
-            //+   TUPLAKON //tuplaa lopvok ("rime") nom vain kansi -s+n kannet    // oma merkki: +
-                         //verbit tulee inf +l tulLa +r purra  tuplaa lopvok jossa poikkeuksellisesti kons mukana koska Astva keskemmällä
-           //nomineissa eissa nyt _ voktupla,             * konstuplaus kansi, -syö rimestä, # syöt tokavikan rimestä vain suo soita (19 par pl)
-           //verb  nyt:  _ voktupa vain sanoo kehuu (52), * syö AVKONS sousi mutta TULLA tuplaa rimen vikabn kons, -syö rimen vikan vok, puhua puhu(-a)u, #
-
-           // +   TUPLAKON ok
-           // *   TUPLAVOK
-           // -   EATVOK   ok
-           // _    EATKON?
+    end;
 end;
 
-const
-    uusnum: array  [0..33] of word=( //(0,1,2,3,4,5,6,7,8,9,10,11,12,13,25,26,27,28,29,14,32,33,15,16,17,30,31,18,19,20,21,22,23,24);
+constructor tluokkasija.create(lka:tlka;sij:tsija;tpl:string);
+var i,j:word;
+begin
+   { type tluokkasija=class(tobject)
+   luokka:tlka;sija:tsija;
+   lisuke:string[8];
+   vahva:boolean;
+   eatvok,tuplakon,tuplavok,copyvok,eat2vok:boolean;
+   procedure match(alku:string);
+   constructor create(lka,sij:word;tpl:string);
+  end;}
+    luokka:=lka;
+    lnum:=luokka.kot;
+     luokka:=lka;sija:=sij;
+     lisuke:=tpl;
+
+     nogo:=tpl='!';eatvok:=false;tuplavok:=false;TUPLAKON:=FALSE;COPYVOK:=FALSE;EAT2VOK:=FALSE;
+     if luokka.vahva then  vahva:=sija.vv else vahva:=sija.vv;
+     if pos('-',tpl)=1 then begin lisuke:=copy(tpl,2);eatvok:=true;end;  //VOKAALIVEX häkkI häkeissä
+     if pos('*',tpl)=1 then  begin lisuke:=copy(tpl,2);  tuplavok:=true;end; // VOKAALI kahdentuu ukko ukoon akka akkaan
+     if pos('+',tpl)=1 then begin lisuke:=copy(tpl,2);tuplakon:=true;end; //konsonatti tuplataan kaNsi kaNNen
+     if pos('*',tpl)>0 then begin  lisuke:=copy(tpl,1,length(tpl)-1);copyvok:=true;end;  //välivokaali kopioidaan loppuun..suO suOhOn JäÄ jäÄhÄn
+      if pos('#',tpl)=1 then begin lisuke:=copy(tpl,2,99);eat2vok:=true;end;
+      try
+     except writeln('FAILSIJALUOKKA',lka.kot,':',sij.num,sij.ending);end;
+end;
+
+const    uusnum: array  [0..33] of word=( //(0,1,2,3,4,5,6,7,8,9,10,11,12,13,25,26,27,28,29,14,32,33,15,16,17,30,31,18,19,20,21,22,23,24);
             0, //nom
             2,  // part
             1,3,4,6,7,8,10,11,//gen+paikallis+abe+tra
@@ -142,31 +162,186 @@ const
      );
 
 procedure tsanasto.testaa;
-var  slista,olista,plista:tstringlist;i,j,dif,pdif,ahits,vhits:word;//p_vo,p_av,p_lk:string;
+var csan,cvok,ckon,clka:word;
+   ssan,svok,skon,SVAHVA,SHEIKKO:string;
+   msan,mvok,mkon,xtra:string;
+var  sanalista,osalista,prevosat:tstringlist;i,j,dif,pdif,ahits,vhits:word;//p_vo,p_av,p_lk:string;
+procedure uusavkon;
+  begin
+   try
+    avs[ckon].vikasana:=csan;
+    ckon:=ckon+1;
+    avs[ckon].ekasana:=csan+1;
+    //avs[cav].takia:=0;  //takavokaalisten määrä  .. ei käytetä vielä
+    //UUS avs[cav].v:=sl[2];
+    //UUS avs[cav].h:=sl[3];
+    avs[ckon].sis:=cvok; //minkä loppuvokaalin alla on ("sis" nimi oiis hyvä muuttaa joskus "lvok" tms
+        EXCEPT WRITELN('failavkon1:',ckon,'/',osalista.count,'/',length(avs));END;
+    try
+    if length(osalista[2])=2 then
+     begin
+        if osalista[2][1]='_' then
+         begin
+           avs[ckon].v:=osalista[2][2];
+           avs[ckon].h:=osalista[2][2];
+
+        end
+        else
+        begin
+          avs[ckon].v:=osalista[2][1];
+          if osalista[2][2]='*' then begin avs[ckon].h:='';   end
+          else avs[ckon].h:=osalista[2][2];
+        end;
+      end
+      else if osalista[2]='' then begin  avs[ckon].v:=''; avs[ckon].h:='';end;;
+    //if avs[cav].v='a' then avs[cav].v:=avs[cav].h  //"_" käytettiin aastevaihtelun puuttumisen merkkaamiseen. sorttautuu siistimmin
+    //else prlim:=0;
+    //write(' >',avs[cav].v,avs[cav].h);
+    EXCEPT WRITELN('failavkon:',ckon,'/',osalista.count,'/',length(avs));END;
+end;
+procedure uusloppuvok;
+  begin
+   TRY
+  //write('<li>voks:',dif,osalista[1],':::  ',osalista.commatext,' \\ ',prevosat.commatext);
+  siss[cvok].vikasana:=csan; //edellisten loppuvokaalien vika sana
+  siss[cvok].vikaav:=ckon;  // edellisten loppuvokaalien vikat avkonsonantit
+  inc(cvok);
+  siss[cvok].ekaav:=ckon+1; //avkons ei vielä inkrementoitu
+  siss[cvok].sis:=(osalista[1]);//itse loppuvokaalit
+  siss[cvok].lk:=clka;  //luokka on jo kasvatettu, tämä kuuluu siihen uuteen
+  EXCEPT WRITELN('failsis:',cvok,'/',osalista.count,'/',length(siss));END;
+end;
+procedure uusluokka;
+  var kot:integer;
+  begin
+  try
+     lks[clka].vikasis:=cvok;
+     lks[clka].vikasana:=csan;
+     clka:=strtointdef(osalista[0],99);
+     //clka:=clka+1;
+     //writeln('<li>LKA:',clka,osalista.commatext,'//');
+     lks[clka].ekasis:=cvok+1; // ei vielä kasvatettu
+     //try lks[clka].esim:=sl[7];except lks[clka].esim:='x'+inttostr(sl.count)+'x';end;
+     kot:=strtointdef(osalista[0],99);//clka+51;
+     lks[clka].kot:=kot;//clka+51;
+     if (kot in vahvatverbiluokat+vahvatnominiluokat) then   lks[clka].vahva:=true else  lks[clka].vahva:=false;
+  except writeln('failreadlka');end;
+end;
+ var lksija:tluokkasija;
 begin
   //ongelmia .. collie, zombie 05 ei i-loppu..  veks?'
   //YÖ paloiteltu väärin
-  slista:=tstringlist.create;
-  olista:=tstringlist.create;
-  olista.delimiter:=',';
-  plista:=tstringlist.create;
-  plista.delimiter:=',';
-  slista.loadfromfile('uuskaavas.lst');
-  slista.sort;
+ writeln('testaasijat');
+  cvok:=0;ckon:=0;csan:=0;clka:=0;
+  sanalista:=tstringlist.create;
+  osalista:=tstringlist.create;
+  osalista.delimiter:=',';
+  prevosat:=tstringlist.create;
+  prevosat.delimiter:=',';
+  sanalista.loadfromfile('uuskaavas.lst');
+  sanalista.sort; //oli kai valmiiksikin
   pdif:=2;
   ahits:=0;
   vhits:=0;
-  plista.delimitedtext:=slista[0];
-  writeln('<li>sanatkladattu',slista.count,'<ul style="margin:0en;padding:0em;border:1px solid red"><li>',plista[0],'<ul><li>',plista[1],':<ul><li>',plista[2],':',plista[3],':');
-  for i:=1 to slista.count-1 do
+  prevosat.delimitedtext:=sanalista[0];
+  writeln('<li>sanatkladattu',sanalista.count,'<ul style="margin:0en;padding:0em;border:1px solid red"><li>',prevosat[0],'<ul><li>',prevosat[1],':<ul><li>',prevosat[2],':',prevosat[3],':');
+  for i:=1 to sanalista.count-1 do
   begin
     try
-    olista.delimitedtext:=slista[i];
+    osalista.delimitedtext:=sanalista[i];
     dif:=3;
-    for j:=0 to 2 do if olista[j]<>plista[j] then begin dif:=j;break;end; //2
+    for j:=0 to 2 do if osalista[j]<>prevosat[j] then begin dif:=j;break;end; //2
+    if dif=0 then uusluokka;
+    if dif<2 then uusloppuvok;
+    if dif<3 then uusavkon ;
+     //itse rivin sana
+    csan:=csan+1;
+    sans[csan].av:=ckon;
+    sans[csan].san:=osalista[3];
+    sans[csan].takavok:=osalista[4]='0';
+    //UUSNO sans[csan].akon:=(sl[6]);
+    //if sl[4]='0' then avs[ckon].takia:=avs[ckon].takia+1;  //lasketaan takavokaalisten määrää av-luokassa hakujen tehostamiseksi
+    prevosat.delimitedtext:=sanalista[i];
+
+    ;
+    except writeln('!!!',osalista.commatext,'(',dif,')',prevosat.commatext,prevosat.count);end;
+ end;
+  for clka:=1 to 48 do
+  begin
+    writeln('<li>',clka,'<ul>');
+    for cvok:=lks[clka].ekasis to lks[clka].vikasis do
+    begin
+      writeln('<li>',siss[cvok].sis,'<ul>');
+      sVOK:=siss[cvok].sis;
+      for ckon:=siss[cvok].ekaav to siss[cvok].vikaav do
+      begin
+        SVAHVA:=avs[ckon].V;
+        SHEIKKO:=avs[ckon].H;
+        writeln('<li><b>',avs[ckon].v,avs[ckon].h,'</b> ');
+        for j in [0,1,2,11,12,13,20..33] do
+        begin
+         try
+          lksija:=nomluokkasijat[clka,j];
+          if lksija.nogo then continue;
+          mkon:=ifs(lksija.vahva,svahva,sheikko);
+          mvok:=svok;
+
+          if lksiJA.eatvok then delete(mvok,1,1);
+          if lksija.tuplakon then begin mkon:=mkon+mkon;end;
+          if lksija.tuplavok then begin mvok:=mvok+mvok; end;
+          if lksija.copyvok then begin xtra:=mvok[1]; end else xtra:='';
+          if lksija.eat2vok  then begin mvok:=copy(mvok,1,1);end;
+          writeln(';',reversestring(lksija.sija.ending+xtra+lksija.lisuke+mvok+mkon+sans[avs[ckon].ekasana].san));
+
+
+         //if not (j in [17,30,31])then continue;
+         //svok:=nominit.lmmids[clka,j];
+         //if svok<>nominit.lmmids[clka,j] then writeln('<li>luokkasijamissi:',clka,j,svok,'!=', nominit.lmmids[clka,j]) else writeln('?');
+         //if mymid='!' then continue;
+         //myav:=aste(osat[1][1]);
+         {if osat[1]='0' then muotoav:=s_a
+         else
+         begin
+             if n<32 then if nominit.sijat[j].vv then
+                muotoav:=sanaav[1] else muotoav:=sanaav[2];
+             if n>31 then //if nominit.sijat[j].hv then
+                if nominit.sijat[j].hv then
+                 muotoav:=sanaav[1] else muotoav:=sanaav[2];
+              //heikon heikot
+               // else if sanaav[2]='*' then muotoav:='' else muotoav:=sanaav[2];
+              if muotoav='*' then muotoav:='';
+         //end;
+         myvok:=s_v;
+         //if yav='_' then myav:='';
+          if pos('-',mymid)=1 then begin myvok:=copy(myvok,2,9);mymid:=copy(mymid,2,99);end;  //VOKAALIVEX häkkI häkeissä
+          if pos('*',mymid)=1 then     mymid:=copy(mymid,2,99)+myvok; // VOKAALI kahdentuu ukko ukoon akka akkaan
+          if pos('+',mymid)=1 then begin //writeln('<li>mid:',mymid,'/vok:',myvok);
+            mymid:=copy(mymid,2)+myvok[1];end;
+          if pos('*',mymid)>0 then begin  mymid:=myvok[1]+copy(mymid,1,length(mymid)-1);end;
+          if pos('*',mymid)>0 then begin  mymid:=myvok[1]+copy(mymid,1,length(mymid)-1);end;
+          if pos('#',mymid)=1 then begin mymid:=copy(mymid,2,99);myvok:=copy(myvok,1,length(myvok)-1);end;
+         if mymid='!' then
+         writeln('<small style="color:#4cc">',reversestring(nominit.sijat[j].ending+mymid+myvok+muotoav+s_s),'</small>')
+         else writeln(reversestring(nominit.sijat[j].ending+string(mymid)+myvok+muotoav+s_s),j);//,'<sub><sup>',j,muotoav,'</sup></sub>');
+       }
+         except writeln('fail!!!!!!');end;
+       end;
+
+      end;
+     writeln('</ul>');
+    end;
+    writeln('</ul>');
+
+  end;
+  writeln('</ul>');
+  writeln('testaasijattu');
+end;
     //  if olista[0]='19' then writeln('<li> (',olista.commatext, '/dif:',olista[2],dif,')',olista[2],olista[2]<>plista[2],plista[2],'</li>');
-    if dif=2 then writeln(' ',olista[2],ahits,' ',ifs(olista[2]='','<b>'+olista[5]+'</b>','-'))
-      else if dif=1 then writeln(' ',ahits,' ##', vhits,'</li><li><b>[',olista[1],']:</b>',olista[5],' ',olista[2],'',ahits, ' ')
+{    if dif=2 then
+    begin
+     writeln(' ',olista[2],ahits,' ',ifs(olista[2]='','<b>'+olista[5]+'</b>','-'));
+    end
+    else if dif=1 then writeln(' ',ahits,' ##', vhits,'</li><li><b>[',olista[1],']:</b>',olista[5],' ',olista[2],'',ahits, ' ')
         else if dif=0 then writeln(' ',ahits,'##', vhits,'</li></ul></li><li>',olista[0],'<ul><li><b>',olista[1],'::</b>',olista[2],' ',olista[5])
     except writeln('!!!',olista.commatext,'(',dif,')',plista.commatext,plista.count);end;
     pdif:=dif;
@@ -176,8 +351,9 @@ begin
     inc(ahits);
     inc(vhits);
     //plista.assign(olista);
+
  end;
-end;
+end; }
 procedure tsanasto.luomuodot;
  var mfile:text;i,j,jj:word;  //järjestää muodot uudestaan
  begin
@@ -269,17 +445,19 @@ assign(f,'uussanat.nom');
    readln(f,s);
    //s:=taka(s);
    osat.commatext:=s;
-   try
    n:=strtointdef(osat[0],999);
    if n<>prevlk then begin prevav:='x';writeln('<hr><li>luokka:',n);end;
    prevlk:=n;
    if n>49 then break;
    //if n<32 then continue;
    // if not (n in [1,6,8]) then continue;
+   try
    if nominit.lmmids[n,0]<>'' then //continue;
    if pos(reversestring(nominit.lmmids[n,0]),osat[2])<=0 then
    begin writeln('<li>NOGO:(',red(osat[2]+'/'+nominit.lmmids[n,0]),n,')');continue;
    end;
+   except writeln('nnnnnnnnnnnnnnnnnn');end;
+   try
   // writeln(n,nominit.lmmids[n,0],pos(nominit.lmmids[n,0],osat[2]));
    ss:=reversestring(copy(osat[2],1,length(osat[2])-length(nominit.lmmids[n,0])));
    slen:=length(ss);
@@ -312,23 +490,11 @@ assign(f,'uussanat.nom');
        s_v:=copy(ss,1,2);s_a:=copy(ss,3,1);s_s:=copy(ss,4);cut:='e';   //kons lopussa kun syöty
     end //+inttostr(length(s_s)
    else if  (isvokraja(ss[2],ss[1])) then begin s_v:=copy(ss,1,3);s_s:=copy(ss,3);cut:='f';end      //ei esiinny???
-   else begin writeln('<li>VOK:',s,'/',ss);s_v:=copy(ss,1,2);s_a:='';s_s:=copy(ss,3);cut:='g'; end;
+   else begin //writeln('<li>VOK:',s,'/',ss);
+     s_v:=copy(ss,1,2);s_a:='';s_s:=copy(ss,3);cut:='g'; end;
    //if pos(s_v,konsonantit)>0 then writeln(s);
 
    except writeln('fAILPILKO1:',S,'!',ss);END;
-   {try                                                                           //ien  ei
-   if (n>31) and (osat[1]='D') then begin writeln('<li>',ss,'/DDD',ss); s_s:=copy(ss,2);s_a:='';s_v:=ss[1];end   else
-   for i:=2 to slen  DO
-   begin
-     if (pos(ss[i],konsonantit)>0) then  begin s_a:=ss[i];s_s:=copy(ss,i+1);break;end
-     //else if (isvokraja(s_v[i-1],ss[i])) or (i>2) then begin if (isvokraja(s_v[i-1],ss[i])) then writeln('//',s_v[i-1],ss[i]);s_s:=copy(ss,i);break;end
-     else if (isvokraja(ss[i],s_v[i-1])) then begin s_s:=copy(ss,i);break;end
-       else if (i>2) then begin  writeln('');s_s:=copy(ss,i-1);delete(s_v,2,1);break;end           //puin iup  //ien ei
-        //if (i=2) and (n>31) and (osat[1]='D') then begin writeln('<li>',ss,'/DDDDDDDDDDDDD:',ss[i],i,ss); s_s:=copy(ss,i-1);end
-          else s_v:=s_v+ss[i];
-    end;
-   }
-  //   write(' ',s_v[1],ss[2],isvokraja(s_v[1],ss[2]));
    except writeln('fAILPILKO2:',S);END;
    try
   //if n<>17 then continue;//if length(s_v)<2 then continue;
@@ -340,38 +506,25 @@ assign(f,'uussanat.nom');
   //if (osat[1]<>'D') then   //if pos('*',sanaav)<1 then    continue;
   //if length(sanaav)<>2 then writeln('<li>',osat.commatext);
      //writeln('<h2>TYHJÄ:',s,'</h2>') else
-  if osat[1]=prevav then continue;
-  prevav:=osat[1];
 
   outo:=false;
     if pos(osat[1],'ABC')>0 then IF n>31 then s_s:=sanaav[1]+s_s;
-  //if osat[1]<>'D' then continue;
-  //if s_a<>'' then continue;
-  //write('/',s_s,pos(s_s[1],konsonantit),'\');
-  //if (n<33) then begin if  (sanaav[1]<>s_a) then outo:=true;myav:=myav[1];end
-  //else begin if (myav[1]<>s_a) then outo:=true;myav:=myav[2];end
   except writeln('<li>failx',s);end;
-  //if not outo then continue;
    try
    //mitä vittuu ... if n>31 then if (s_s='') or (pos(s_s[1],konsonantit)<1) then s_s:=s_a+s_s;
     if (s_s='') and (osat[1]='0') then begin s_s:=s_a;s_a:='';end;
-   if sanaav='--' then sanaav:=s_a+s_a;
+   if sanaav='--' then sanaav:='_'+s_a;
    if length(osat[2])=2 then begin writeln('<li>yöyöy:');sanaav:='';s_v:=reversestring(osat[2]);s_s:='';end; //YÖ
    sanakaavat.Add(AddChar('0', inttostr(n),2)+','+takax(s_v+','+sanaav+','+s_s,olietu)+','+inttostr(olietu)+','+osat[2]);
    //if osat[1]=prevav then continue;
    except writeln('<li>failwrite',s);end;
    try
-   //if osat[1]=prevav then continue;
-   //if osat[1]='0' then continue;
-   //if sanaav[2]<>'*' then continue; //TMP debug!
-   //if osat[1]='0' then continue;
-   //if ((n<32) and (sanaav[1]<>s_a) and (osat[1]<>'0')) then  //näitä ei ole
-   //if ((n>=32) and (sanaav[1]<>s_a) and (osat[1]<>'0')) then  //??
-   //if s_a='' then if osat[1]<>'0' then  //näitä vain K:n poistumat heikoissa luokisssa ie, äes,.. mutta myös muutama varas, pyyhin
+   if osat[1]=prevav then  continue;
+   prevav:=osat[1];
     writeln('<li>',inttostr(n)+' <b>[',cut,'] '+(s_v+','+sanaav+'</b>,'+s_s)+' \'+s+' [',nominit.lmmids[n,0], ']: <b>',aste(osat[1][1]),'</b>((',sanaav,'))');
    // continue;
-   for j:=28 to 33 do
-   // for j in [1,2,11,12,13,20..33] do
+   //for j:=22 to 24 do
+    for j in [1,2,11,12,13,20] do
    begin
      try
      //if not (j in [17,30,31])then continue;
@@ -393,8 +546,13 @@ assign(f,'uussanat.nom');
      except writeln('!!!!!!',mymid,n,j);end;
      myvok:=s_v;
      //if yav='_' then myav:='';
-      if pos('-',mymid)=1 then begin myvok:=copy(myvok,2,9);mymid:=copy(mymid,2,99);end;
-      if pos('*',mymid)=1 then begin mymid:=copy(mymid,2,99)+myvok;end;
+      if pos('-',mymid)=1 then begin myvok:=copy(myvok,2,9);mymid:=copy(mymid,2,99);end;  //VOKAALIVEX häkkI häkeissä
+      if pos('*',mymid)=1 then     mymid:=copy(mymid,2,99)+myvok; // VOKAALI kahdentuu ukko ukoon akka akkaan
+      if pos('+',mymid)=1 then begin //writeln('<li>mid:',mymid,'/vok:',myvok);
+        mymid:=copy(mymid,2)+myvok[1];end;
+      if pos('*',mymid)>0 then begin  mymid:=myvok[1]+copy(mymid,1,length(mymid)-1);end;
+      if pos('*',mymid)>0 then begin  mymid:=myvok[1]+copy(mymid,1,length(mymid)-1);end;
+      if pos('#',mymid)=1 then begin mymid:=copy(mymid,2,99);myvok:=copy(myvok,1,length(myvok)-1);end;
      if mymid='!' then
      writeln('<small style="color:#4cc">',reversestring(nominit.sijat[j].ending+mymid+myvok+muotoav+s_s),'</small>')
      else writeln(reversestring(nominit.sijat[j].ending+string(mymid)+myvok+muotoav+s_s),j);//,'<sub><sup>',j,muotoav,'</sup></sub>');
@@ -949,7 +1107,48 @@ var tavut,sijatavut:tstringlist;
  var i,j,otto,tref,eka:word; oli,olisan,avk:boolean;lu,vo,av,san:word;
     oliav:array[0..4] of word;
     avst,allav,alleka,alsan:string;  avtype,mak,makv,nonz:word;
+    lksi:tluokkasija;
+   // lksit:array[0..48] of array[0..33] of tluokkasija;
+    ilk,isi,ivo,iko,isa:word;mlk:tlka;msij:tsija;mlks:tluokkasija;mvok:tsis;mkon:tav;msan:tsan;ssi,svo,sav,ssan,pkon:string;
 begin
+  for ilk:=1 to 48 do
+  begin
+   //for j:=lks[i].ekasis to lks[i].vikasis do
+    writeln('<li><b>',ilk,'</b>: ');
+    mlk:=lks[i];
+    for ivo:=mlk.ekasis to mlk.vikasis do
+    begin
+       mvok:=siss[ivo];
+       for iko:=mvok.ekaav to mvok.vikaav do
+       begin
+          mkon:=avs[iko];
+         if iko>2 then if pkon=mkon.v+mkon.h then continue;
+         pkon:=mkon.v+mkon.h;
+          msan:=sans[mkon.ekasana];
+          writeln('<li><b>',reversestring(mvok.sis+'.'+mkon.av+''+msan.san+msan.akon),'</b>');
+          for isi:=0 to 33 do
+          begin
+            lksi:=nomluokkasijat[ilk,isi];
+            if  LKSI.NOGO THEN continue;
+            svo:=mvok.sis;
+            sav:=mkon.av;
+            ssan:=msan.san+msan.akon;
+            try
+            if lksi.vahva then sav:=mkon.v else sav:=mkon.h;
+            except writeln('!');ssi:='';end;
+            if lksi.eatvok then delete(svo,1,1);
+            if lksi.tuplakon then begin sav:=sav+'x';end;
+            if lksi.tuplavok then begin svo:=svo+'ä' end;
+            if lksi.copyvok then begin svo:=svo+'y' end;
+            if lksi.eat2vok  then begin svo:='';end;
+            writeln(';',reversestring(lksi.sija.ending+lksi.lisuke+svo+ssi+ssan));
+          end;
+
+        end;
+      end;
+
+    end;
+ exit;
  //fillchar(tcounts,sizeof(tcounts),0);
  tavut:=tstringlist.create;
  sijatavut:=tstringlist.create;
@@ -1072,25 +1271,31 @@ constructor tsanasto.create;
 var i,j,tc1,tcj:word;h:thakunen;
    hakusanat:tstringlist;
 begin
+ //muototest;exit;
 hakusanat:=tstringlist.create;
 //hakusanat.loadfromfile('haku.lst');
 hakusanat.loadfromfile('vtest.tmp');
 //hakusanat.loadfromfile('ntest.lst');
 resutaulu:=tsinfotaulu.create(65535);
 writeln('kaavas.LST');
-luesanat('kaavas.lst');
-writeln('LUETTU kaavat.csv');
+//luesanat('uuskaavas.lst');
+//writeln('LUETTU kaavat.csv');
 //readadjbin;
 verbit:=tverbit.create('kaavas.lst','vmids.csv','vsijat.csv');
 writeln('<li>verbikaavat luettu');
 //nominit:=tnominit.create('nomkaavat.csv','nmids.csv'); //'nomsall.csv'
 nominit:=tnominit.create('nomkaavat.csv','nommuodot.csv'); //'nomsall.csv'
+for i:=1 to 48 do
+ for j:=0 to 33 do nomluokkasijat[i,j]:=tluokkasija.create(lks[i],nominit.SIJAT[J],NOMINIT.lmmids[I,J]);
+
 writeln('<li>nominikaavat luettu');
+testaa;exit;
+
 //function generateone(luokka:tlka;sana:tsan;muoto:tsija):string;
 //luomuodot;
 luokaavat;//exit;
-testaa;exit;
-tutkimuodot;
+tutkimuodot;exit;
+luokaavat;//exit;
 exit;
 parsewend('');exit;
 //haenumero('sanoa',false,false);
@@ -1153,21 +1358,29 @@ procedure tsanasto.luesanat(fn:string);
     begin
      try
       avs[cav].vikasana:=csan;
-      //writeln('<li>','<b>av:',avs[cav].v,avs[cav].h,'</b>','..',csan, '   ',sl[2],sl[3],' :::',clka,'/',csis,'/',cav,'/',csan);
+      writeln('<li>','<b>av:',sl[2],'</b>'  );//avs[cav].v,avs[cav].h,'</b>','..',csan, '   ',sl[2],sl[3],' :::',clka,'/',csis,'/',cav,'/',csan);
       cav:=cav+1;
       avs[cav].ekasana:=csan+1;
       avs[cav].takia:=0;  //takavokaalisten määrä  .. ei käytetä vielä
-      avs[cav].v:=sl[2];
-      avs[cav].h:=sl[3];
+      //UUS avs[cav].v:=sl[2];
+      //UUS avs[cav].h:=sl[3];
       avs[cav].sis:=csis;
-      if avs[cav].v='a' then avs[cav].v:=avs[cav].h  //"_" käytettiin aastevaihtelun puuttumisen merkkaamiseen. sorttautuu siistimmin
-      else prlim:=0;
+      if length(sl[2])=2 then
+       begin
+        avs[cav].v:=sl[1];
+        if sl[2][2]='*' then begin avs[cav].h:='';   end
+        else avs[cav].v:=sl[2][2];
+        end
+        else if sl[2]='' then ;
+      //if avs[cav].v='a' then avs[cav].v:=avs[cav].h  //"_" käytettiin aastevaihtelun puuttumisen merkkaamiseen. sorttautuu siistimmin
+      //else prlim:=0;
       //write(' >',avs[cav].v,avs[cav].h);
       EXCEPT WRITELN('fav:',cav,'/',SL.count,'/',length(avs));END;
   end;
   procedure uussis;
     begin
      TRY
+    write('<li>voks:',sl[1],':');
     siss[csis].vikasana:=csan;
     siss[csis].vikaav:=cav;
     csis:=csis+1;
@@ -1175,7 +1388,6 @@ procedure tsanasto.luesanat(fn:string);
     siss[csis].sis:=(sl[1]);
     siss[csis].lk:=clka;
     prlim:=0;
-    //write(^J':',siss[csis].sis);
     EXCEPT WRITELN('fsis:',csis,'/',SL.count,'/',length(siss));END;
   end;
   procedure uusluokka;
@@ -1186,7 +1398,7 @@ procedure tsanasto.luesanat(fn:string);
        lks[clka].vikasana:=csan;
        clka:=strtointdef(sl[0],99);
        //clka:=clka+1;
-       //writeln('<li>LKA:',clka,sl.commatext);
+       writeln('<li>LKA:',clka,sl.commatext,'//');
        lks[clka].ekasis:=csis+1;
      //try lks[clka].esim:=sl[7];except lks[clka].esim:='x'+inttostr(sl.count)+'x';end;
      kot:=strtointdef(sl[0],99);//clka+51;
@@ -1219,12 +1431,15 @@ begin
      ulka:=strtointdef(sl[0],0);
      //if ulka>58 then break;     //if ulka<52 then continue;     //if alko then begin prevsl.commatext:=sana;end;  //eka sana ei aloita luokkia
      differ:=4;
+     //01,o,bb,a,0,abo
+
      if alko then differ:=0 else
      for i:=0 to sl.count-2 do if prevsl[i]<>sl[i] then begin differ:=i;break; end;
-    if differ=3  then differ:=2;      // av-heikot erosivat mutta vahva oli sama. yhdistetään - AV ylipäätään oli eri
+
+    //if differ=3  then differ:=2;      // av-heikot erosivat mutta vahva oli sama. yhdistetään - AV ylipäätään oli eri
     if (differ<1) then uusluokka;
     if (differ<2) then  uussis;
-    if (differ<4) then uusav;
+    if (differ<3) then uusav;
      except writeln('fail:',DIFFER);end;
      TRY
      alko:=false;
@@ -1232,14 +1447,15 @@ begin
       csan:=csan+1;
       sans[csan].av:=cav;
 
-    sans[csan].san:=(sl[5]);
-    sans[csan].takavok:=sl[4]='0';
-    sans[csan].akon:=(sl[6]);
+    sans[csan].san:=(sl[3]);
+    //sans[csan].takavok:=sl[4]='0';
+    //UUSNO sans[csan].akon:=(sl[6]);
     if sl[4]='0' then avs[cav].takia:=avs[cav].takia+1;  //lasketaan takavokaalisten määrää av-luokassa hakujen tehostamiseksi
     //csan:=csan+1;
     alko:=false;
     prevsl.commatext:=sana;  //tähän taas seuraavaa sanaa verrataan
     prlim:=prlim+1;  //just for debug to make managable listings .. not used
+    //02,o,mm,iksal,0,laskimo ..fav:2048/6/2048 failav2@2093/65536
     except writeln('failav',differ,'@',csan,'/',length(sans));end;
    end;
 

@@ -27,7 +27,7 @@ end;
 type tnominit=class(tobject)
     lmmids:array[0..49] of array[0..33] of string[15];
     clka,csis,cav,csan:integer;
-    nhitlist:tlist;
+   // nhitlist:tlist;
     //protomids:array[0..49] of array[0..11] of string[15];
      // lk:60 lv:130 av:683
      lkat,lktot,latot,avtot,taivluokkia:word;
@@ -61,10 +61,11 @@ const nexamples:array[1..49] of ansistring=('ukko','hiomo','avio','elikko','häkk
 
 //const nsijesims:array[0..34]of ansistring =('ilo','ilon','iloa','ilossa','ilosta','iloon','ilolla','ilolta','ilolle','ilona','iloksi','ilotta','ilot','ilojen','iloja','iloissa','iloista','omeniin','iloilla','iloilta','iloille','iloina','iloiksi','iloitta','iloin','ilojen','omenoiden','omenoitten','ulappain','unten','uniin','iloihin','iloja','omenoita','xx');
 
-const nendings:array[0..33] of ansistring =('','a','n','ssa','sta','lla','lta','lle','ksi','tta','na','n','t','issa','ista','illa','ilta','ille','iksi','itta','in','ina','a','a','ita','in','in','ihin','en','en','iden','itten','in','ten');
+const nendings:array[0..33] of ansistring =('','a','n','ssa','sta','lla','lta','lle','ksi','tta','na','n','t','issa','ista','illa','ilta','ille','iksi','itta','in','ina','a','ja','ita','in','in','ihin','en','en','iden','itten','in','ten');
 const nsijesims:array[0..33]of ansistring =('ilo','iloa','ilon','ilossa','ilosta','ilolla','ilolta','ilolle','iloksi','ilotta','ilona','iloon','ilot','iloissa','iloista','iloilla','iloilta','iloille','iloiksi','iloitta','iloin','iloina','iloja','iloja','omenoita','omeniin','uniin','iloihin','ilojen','ilojen','omenoiden','omenoitten','ulappain','unten');
 const nsijnams:array[0..33]of ansistring =('NNomSg','NParSg','NGenSg','NIneSg','NElaSg','NAdeSg','NAblSg','NAllSg','NTraSg','NAbeSg','NEssSg','NIllSg','NNomPl','NInePl','NElaPl','NAdePl','NAblPl','NAllPl','NTraPl','NAbePl','NInsPl','NEssPl','NParPl','NParPl','NParPl','NIllPl','NIllPl','NIllPl','NGenPl','NGenPl','NGenPl','NGenPl','NGenPl','NGenPl');
-nvahvanvahvat =[0,1,10,11,21,22,25,27,28,32];
+
+nvahvanvahvat =[0,1,10,11,21,22,23,25,27,28,32];
 //nvahvanvahvat =[0,1,6,11,15,16,20,21,17,13,27,28];
 const nheikonheikot=[0,1,33];
 
@@ -259,7 +260,7 @@ luemids(midfile);
 //luesanat('nomsall.csv');
 //???luesanat(wfile);
 //writeln('luettu,luesanat');
-nhitlist:=tlist.create;
+//nhitlist:=tlist.create;
 writeln('<li>nominit luettu:',midfile,' ',midfile);
 //listaa;
 exit;
