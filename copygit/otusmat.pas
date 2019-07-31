@@ -433,7 +433,7 @@ end;
 function totus.multimat(other:totus):totus;
 var
     //i,j,ik,jm:word;
- v1var,a1n,a1var,a1val,v2n,v3,v3n,v2val,v2var,a2,a2var,a2val,i:word;
+ v1var,a1n,a1var,a1val,v2n,v3,v3n,v2val,v2var,a2,a2var,a2val,i,sikoja:word;
  //ivar,jvar,ikvar,jmvar:word;
  sum:longword;
  tutki,atot:longword;

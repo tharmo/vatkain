@@ -293,7 +293,7 @@ mlist:=tstringlist.create;
     // if i=27 then slist[i]:='28,     ,*e  ,--tt  ,*e  ,*e  ,*-te  ,*e  ,*e  ,*e  ,*-te  ,*e  ,*e  ,*e  ,      ,      ,-     ,-     ,      ,-     ,-     ,-     ,-     ,-     ,-     ,-';
 
      mlist.delimitedtext:=slist[i];
-     writeln('<li>',mlist.count,'::',mlist.commatext,'!!</li>');
+     //writeln('<li>',mlist.count,'::',mlist.commatext,'!!</li>');
      mlist.delete(0);
      mlist.delete(0);
      for j:=0 to scount do
@@ -318,7 +318,7 @@ mlist:=tstringlist.create;
     sijat[i].esim:=nsijesims[i];
 
     //if d then
-   // writeln('<li>sija:',i,' /end:',sijat[i].ending,' /v:',sijat[i].vv, '/h:',sijat[i].hv,' ',sijat[i].name,' (',sijat[i].esim,')');
+    //writeln('<li>sija:',i,' /end:',sijat[i].ending,' /v:',sijat[i].vv, '/h:',sijat[i].hv,' ',sijat[i].name,' (',sijat[i].esim,')');
   end;
  // writeln('<hr>LISTedSIJAT');
  // writeln('<hr><pre>');

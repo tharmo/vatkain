@@ -1,11 +1,40 @@
 class name=riimii
  avs
   div
-     xse:gawk in="nomsall.lst" env="LC_ALL=fi_FI.ISO-8859-1": ''' 
+     xse:gawk in="" env="LC_ALL=fi_FI.ISO-8859-1": ''' 
       $1!=prev {  for (i in avs) st=st avs[i];if (st!="0") sst=sst "," prev; print prev,st;prev=$1;delete(avs);st=""}
       {  avs[$2]=$2 }
       END { print "<li>" sst}
      '''
+ sanatsamaan
+   pre
+     xse:gawk in="verbsall.lst" env="LC_ALL=fi_FI.ISO-8859-1" BEGIN="FS=','": ''' 
+        {  print $1 " " $2 " " $3 >"uussanat.vrb"}
+   '''
+   xse:shellexec: cat uussanat.nom uussanat.vrb >uussanat.all
+   
+ uusverb tarvita=ei
+  pre
+     xse:gawk in="verbsall.lst" env="LC_ALL=fi_FI.ISO-8859-1": ''' 
+      BEGIN { 
+       split(",a,a,a,a,a,e,e,e,i,id,d,d,ud,st,+,d,t,st,hd,t,t,t,t,a,aja,a",verbx,",")
+       FS=","
+      }
+      {
+       lka=$1-51
+       if (verbx[lka]!="") {   
+        sana=gensub("ä","a","G",$3)
+        sana=substr(sana,1,length(sana)-1)
+        lop=substr(sana,length(sana)-length(verbx[lka])+1)
+        if (lop!=verbx[lka])    print "<b>!!!!" $0, "         (" lop  ")          [" verbx[lka] "]</b>"  
+          else      print ""  $0, "          !(" lop ")          [" verbx[lka] "]"
+        next
+       } else print  $0,lka "=" verbx[lka],"(" sana ")"
+      }  
+      
+       '''
+     h2: korjaa käsin monikkoviat.nom > monikkokorjaus.nom
+     #xse:shellexec: cat monikotpois.nom monikkokorjaus.nom > uussanat.nom
  uusnom
   pre
      xse:gawk in="nomsall.lst" env="LC_ALL=fi_FI.ISO-8859-1": ''' 
@@ -148,7 +177,7 @@ class name=riimii
      
      ": '''
      xse:shellexec: gawk  'BEGIN { FS=","} { nomsall.csv}": '''
-     $1!=prev {  print prev;prev=$1}
+      $1!=prev {  print prev;prev=$1}
             }
      '''
 

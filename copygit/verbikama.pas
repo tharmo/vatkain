@@ -203,15 +203,22 @@ function vh(lu,si:integer):string;
 WRITELN('<TD><',TAG,'>'+reversestring(LMMIDS[LU,SI])+'</'+TAG+'></td>');
   end;
 begin
-   writeln('<table border="1"><tr><td/>');
-   for j:=0 to sikoja do     if (j in  [0,5,10,11,12,13,16,23,25,36,37,39,45]) then writeln(td(inttostr(j)+reversestring(sijat[j].ending)));
-   writeln('</tr>');
+writeln('verbien sijamuodot:<table border="1"><tr><td>sija</td>');
+for j:=0 to sikoja do  //   if (j in  [0,5,10,11,12,13,16,23,25,36,37,39,45]) then
+writeln(td(inttostr(j)+reversestring(sijat[j].ending)));
+writeln('</tr>');
+writeln('<tr><td>nimet</td>');
+for j:=0 to sikoja do  //   if (j in  [0,5,10,11,12,13,16,23,25,36,37,39,45]) then
+writeln(td(sijat[j].name));
+writeln('</tr>');
    for i:=1 to 26 do
    begin
     writeln('<tr>',td(inttostr(i+51)+luoks[i].esim));
-     for j:=0 to sikoja do   if (j in  [0,5,10,11,12,13,16,23,25,36,37,39,45]) then
+     for j:=0 to sikoja do   //if (j in  [0,5,10,11,12,13,16,23,25,36,37,39,45]) then
     VH(I,J);//(;;writeln(td(reversestring(lmmids[i,j])+vh(i,j)));
+     writeln('</tr>');
    end;
+ writeln('</table>');
 end;
 
 procedure tverbit.listaa;
@@ -284,8 +291,8 @@ writeln('luettu,luesijat');
 //writeln('lue');
 luesijat('vsijat.csv');
 writeln('verbit luettu');
-//listaasijat;
-//writeln('listattu');
+listsijat;
+writeln('listattu');
 //luesanat(wfile);
 //writeln('<hr>etsi<hr>');
 //etsi;
@@ -329,12 +336,16 @@ end;
 procedure tverbit.listaasijat;
 var lu,si:word;
 begin
-  writeln('<table border="1"><tr><td></td>');
+  writeln('listaaverbisijat<table border="1"><tr><td></td>');
   for si:=0 to 64 do
    writeln('<td>',si,'</td>');
   writeln('</tr><tr><td></td>');
   for si:=0 to 64 do
    writeln('<td>',sijat[si].vparad,' ',sijat[si].hparad,'</td>');
+  writeln('</tr>');
+  writeln('</tr><tr><td></td>');
+  for si:=0 to 64 do
+   writeln('<td>',sijat[si].esim,'</td>');
   writeln('</tr>');
   writeln('<tr><td>xx</td> ');
   for si:=0 to 64 do
@@ -365,6 +376,7 @@ writeln('VERBILUE,',fn);
  slist.loadfromfile(fn);//'vsijat.csv');
  for i:=0 to slist.count-1 do     // 0..65
  begin
+
   createsija(i,slist[i]);
   if sijat[i].vv then  vvahvat:=vvahvat+','+inttostr(i) else vheikot:=vheikot+','+inttostr(i);
   if sijat[i].hv then hvahvat:=hvahvat+','+inttostr(i) else hheikot:=hheikot+','+inttostr(i);
@@ -403,7 +415,7 @@ mlist:=tstringlist.create;
      begin
       protomids[i,j]:=trim(mlist[j+1]);
      end;
-     except writeln('<li>failread lka:',I,':::',SLIST[I]);end;
+     except writeln('<li>failread lka:',I+52,slist[I]);end;
   end;
 end;
 
